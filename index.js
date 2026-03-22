@@ -20,11 +20,12 @@ btnSobre.addEventListener('click', () => {
 });
 
 btnPersonalizar.addEventListener('click', () => {
-  window.location.href = 'personailizar.html';
+  window.location.href = './personalizar.html';
 });
 
 btnComecar.addEventListener('click', () => {
   alert('Iniciando jogo com ' + selectedPlayers + ' jogador(es)...');
+  window.location.href = './game.html';
 });
 
 document.addEventListener('keydown', (e) => {

@@ -7,7 +7,7 @@
 }
 
 :root {
-  --bg: #121218;
+  --bg: #4bff04;
   --fg: #f5a6a0;
   /* cor das letras dos botões */
   --primary: #f023e5;
@@ -80,7 +80,10 @@ body {
   width: 800px;
   height: 700px;
 
-  background: black;
+  background-image: url(./img/fundo_home.png);
+  background-size: cover; /* Cobre todo o espaço */
+  background-position: center; /* Centraliza */
+  background-repeat: no-repeat;
   /* fundo interno do jogo */
 
   display: flex;

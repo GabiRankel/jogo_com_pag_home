@@ -4,16 +4,24 @@ let carroInimigo = new CarroInimigo(100, -300, 60, 60, './img/comida1.png')
 let carroInimigo2 = new CarroInimigo(400, -500, 60, 60, './img/sapato.png')
 let carroInimigo3 = new CarroInimigo(500, -100, 60, 60, './img/comida3.png')
 let carroInimigo4 = new CarroInimigo(1000, 1025, 50, 50, './img/comida4.png')
-let carroInimigo5 = new CarroInimigo(1390, 225, 60, 60, './img/comida5.png')
+let carroInimigo5 = new CarroInimigo(1390, 225, 50, 50, './img/comida5.png')
 let carroInimigo6 = new CarroInimigo(1600, 585, 60, 60, './img/comida6.png')
 let carroInimigo7 = new CarroInimigo(1400, 995, 60, 60, './img/comida7.png')
 // troquei a posição do y, pro carro do usuario ficar na parte inferior da tela
 let carro = new Carro(100, 625, 80, 80, '../img/gato_001_bg.png')
-// let medidaCarro = new Carro(100, 325, 85, 50, 'green')
+
+// adicionei a posiçãoe o tamanho do btn pause
+let btnPauseCanvas = {
+    x: 680,
+    y: 16,
+    w: 100,
+    h: 50
+}
 
 let t1 = new Text()
 let t2 = new Text()
 let fase_txt = new Text()
+let pausado = false
 
 let motor = new Audio('./img/musica_fundo1.wav')
 let batida = new Audio('./img/comendo2.mp3')
@@ -42,6 +50,30 @@ document.addEventListener('keyup', (e) => {
     }
 })
 
+//adicionei um pause no jogo
+document.addEventListener('click', (e) => {
+    let canvas = document.getElementById('des')
+    let rect = canvas.getBoundingClientRect()
+
+    let mouseX = e.clientX - rect.left
+    let mouseY = e.clientY - rect.top
+
+    if (
+        mouseX >= btnPauseCanvas.x &&
+        mouseX <= btnPauseCanvas.x + btnPauseCanvas.w &&
+        mouseY >= btnPauseCanvas.y &&
+        mouseY <= btnPauseCanvas.y + btnPauseCanvas.h
+    ) {
+        pausado = !pausado
+
+        if (pausado) {
+            motor.pause()
+        } else {
+            motor.play()
+        }
+    }
+})
+
 function game_over() {
     if (carro.vida <= 0) {
         jogar = false
@@ -54,7 +86,7 @@ function game_over() {
     }
 }
 
-function ver_fase() { 
+function ver_fase() {
     let canvas = document.querySelector("canvas");
     if (carro.pontos > 150 && fase === 1) {
         fase = 2
@@ -89,8 +121,8 @@ function colisao() {
     }
     // adicionei outra musica aqui
     if (carro.colid(carroInimigo2)) { //SAPATO
-        carro.pontos -=2
-        carro.vida -=1
+        carro.pontos -= 2
+        carro.vida -= 1
         carroInimigo2.recomeca()
         let batida_ruim = new Audio('./img/comendo_ruim.mp3')
         batida_ruim.play()
@@ -125,19 +157,19 @@ function colisao() {
 }
 //RETIREI ESSE SISTEMA DE PONTUAÇÃO
 function pontuacao() {
-    if(carro.point(carroInimigo)){
+    if (carro.point(carroInimigo)) {
         carro.pontos -= 15
     }
-    if(carro.point(carroInimigo3)){
+    if (carro.point(carroInimigo3)) {
         carro.pontos -= 15
-    } 
+    }
 }
 
 
 function desenha() {
 
     if (jogar) {
-        
+
         carroInimigo.des_carro()
         carroInimigo2.des_carro()
         carroInimigo3.des_carro()
@@ -150,15 +182,22 @@ function desenha() {
         t1.des_text('Pontos: ' + carro.pontos, 200, 40, 'yellow', '26px Arial')
         t2.des_text('Vidas: ' + carro.vida, 40, 40, 'red', '26px Arial')
         fase_txt.des_text('Fase: ' + fase, 550, 40, 'white', '26px Arial')
-    }else{
+    } else {
         // t1.des_text('GAME OVER', 350, 350, 'yellow', '60px Arial')
         t2.des_text('Pontuação Final: ' + carro.pontos, 380, 200, 'red', '30px Arial')
     }
-
+    if (pausado) {
+        t1.des_text('PAUSADO', 330, 350, 'white', '40px Arial')
+    }
+    // desenhar botão pause
+    des.fillStyle = 'white'
+    des.font = '26px Arial'
+    des.fillText(pausado ? '▶️' : '⏸️', btnPauseCanvas.x + 40, btnPauseCanvas.y + 32)
 }
 
+// adicionei o pause aqui 
 function atualiza() {
-    if (jogar) {
+    if (jogar && !pausado) {
         carro.mov_car()
         //troquei os nomes
         carro.anim('gato_00')
