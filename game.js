@@ -46,6 +46,7 @@ batida.volume = 0.5
 let jogar = true
 let fase = 1
 
+// aqui são os botões de movimento
 //Troquei W/S por A/D e mudei os Arrow
 // adicionei um if que bloqueia o controle do jogador morto
 document.addEventListener('keydown', (e) => {
@@ -70,15 +71,16 @@ document.addEventListener('keydown', (e) => {
 
 });
 
+// aqui são os botões de movimento
 document.addEventListener('keyup', (e) => {
     // jogador 1
-    if (e.key === 'a' || e.key === 'ArrowLeft' || e.key === 'd' || e.key === 'ArrowRight') {
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
         carro.dir = 0;
     }
 
     // jogador 2
     if (jogadores == 2 && carro2) {
-        if (e.key === 'j' || e.key === 'l') {
+        if (e.key === 'a' || e.key === 'd') {
             carro2.dir = 0;
         }
     }
@@ -216,11 +218,26 @@ function colisao() {
 }
 
 function pontuacao() {
+     // se for 2 jogadores, não faz nada
+    if (jogadores == 2) return;
+
     if (carro.point(carroInimigo)) {
-        carro.pontos -= 15
+        carro.pontos -= 7
     }
     if (carro.point(carroInimigo3)) {
-        carro.pontos -= 15
+        carro.pontos -= 7
+    }
+    if (carro.point(carroInimigo4)) {
+        carro.pontos -= 7
+    }
+    if (carro.point(carroInimigo5)) {
+        carro.pontos -= 7
+    }
+    if (carro.point(carroInimigo6)) {
+        carro.pontos -= 7
+    }
+    if (carro.point(carroInimigo7)) {
+        carro.pontos -= 7
     }
 }
 
@@ -242,7 +259,6 @@ function desenha() {
         carroInimigo5.des_carro()
         carroInimigo6.des_carro()
         carroInimigo7.des_carro()
-        carro.des_carro()
         // Troquei os limites da tela, então ajustei os valores para todos aparecerem
         t1.des_text('Pontos: ' + carro.pontos, 200, 40, 'yellow', '26px Arial')
         t2.des_text('Vidas: ' + carro.vida, 40, 40, 'red', '26px Arial')
@@ -261,7 +277,13 @@ function desenha() {
     } else {
         // adicionei um gato mostrandoa lingua aqui
         gameOverAnim.des_carro()
+                if (jogadores == 1 && carro) {
         t2.des_text('Pontuação Final: ' + carro.pontos, 500, 70, 'white', '30px Arial')
+                }
+        if (jogadores == 2 && carro2) {
+            t2.des_text('Jogador 1 - Pontuação Final: ' + carro.pontos, 350, 70, 'white', '30px Arial')
+            t1.des_text('Jogador 2 - Pontuação Final: ' + carro2.pontos, 350, 110, 'white', '30px Arial')
+        }
     }
 }
 
@@ -279,7 +301,6 @@ function atualiza() {
             carro2.mov_car();
             carro2.anim('gato2_0');
         }
-        carro.anim_game_over('lingua_0')
         carroInimigo.mov_car()
         carroInimigo2.mov_car()
         carroInimigo3.mov_car()
