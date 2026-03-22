@@ -26,6 +26,7 @@ let pausado = false
 // adicionei o personalizar musica
 let musicaSalva = localStorage.getItem('musica')
 let motor = new Audio(musicaSalva || './img/musica_fundo1.wav')
+motor.play()
 
 
 let batida = new Audio('./img/comendo2.mp3')
@@ -38,7 +39,6 @@ let jogar = true
 let fase = 1
 //Troquei W/S por A/D e mudei os Arrow
 document.addEventListener('keydown', (e) => {
-    motor.play()
     if (e.key === 'a' || e.key === 'ArrowLeft') {
         carro.dir -= 10
     } else if (e.key === 'd' || e.key === 'ArrowRight') {
@@ -81,8 +81,7 @@ document.addEventListener('click', (e) => {
 function game_over() {
     if (carro.vida <= 0) {
         jogar = false
-        // musica_fundo1.pause()
-        // musica_fundo2.play()
+        motor.pause()
 
         //Troquei o fundo quando a funçaõ é chamada
         let canvas = document.querySelector("canvas");
@@ -186,17 +185,17 @@ function desenha() {
         t1.des_text('Pontos: ' + carro.pontos, 200, 40, 'yellow', '26px Arial')
         t2.des_text('Vidas: ' + carro.vida, 40, 40, 'red', '26px Arial')
         fase_txt.des_text('Fase: ' + fase, 550, 40, 'white', '26px Arial')
+        if (pausado) {
+            t1.des_text('PAUSADO', 330, 350, 'white', '40px Arial')
+        }
+        // desenhar botão pause
+        des.fillStyle = 'white'
+        des.font = '26px Arial'
+        des.fillText(pausado ? '▶️' : '⏸️', btnPauseCanvas.x + 40, btnPauseCanvas.y + 32)
     } else {
         // t1.des_text('GAME OVER', 350, 350, 'yellow', '60px Arial')
         t2.des_text('Pontuação Final: ' + carro.pontos, 380, 200, 'red', '30px Arial')
     }
-    if (pausado) {
-        t1.des_text('PAUSADO', 330, 350, 'white', '40px Arial')
-    }
-    // desenhar botão pause
-    des.fillStyle = 'white'
-    des.font = '26px Arial'
-    des.fillText(pausado ? '▶️' : '⏸️', btnPauseCanvas.x + 40, btnPauseCanvas.y + 32)
 }
 
 // adicionei o pause aqui 
