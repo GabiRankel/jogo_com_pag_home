@@ -23,7 +23,11 @@ let t2 = new Text()
 let fase_txt = new Text()
 let pausado = false
 
-let motor = new Audio('./img/musica_fundo1.wav')
+// adicionei o personalizar musica
+let musicaSalva = localStorage.getItem('musica')
+let motor = new Audio(musicaSalva || './img/musica_fundo1.wav')
+
+
 let batida = new Audio('./img/comendo2.mp3')
 
 motor.volume = 0.5
