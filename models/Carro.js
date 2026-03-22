@@ -28,7 +28,7 @@ class Carro extends Obj {
    
     perdeuPonto = false
     dir = 0
-    vida = 0
+    vida = 5
     pontos = 0
     frame = 1
     tempo = 0
