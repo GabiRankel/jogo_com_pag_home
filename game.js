@@ -9,6 +9,8 @@ let carroInimigo6 = new CarroInimigo(1600, 585, 60, 60, './img/comida6.png')
 let carroInimigo7 = new CarroInimigo(1400, 995, 60, 60, './img/comida7.png')
 // troquei a posição do y, pro carro do usuario ficar na parte inferior da tela
 let carro = new Carro(100, 625, 80, 80, '../img/gato_001_bg.png')
+//adicionei a animação game over aqui
+let gameOverAnim = new Carro(50, 200, 500, 500, './img/lingua_01.png')
 
 // adicionei a posiçãoe o tamanho do btn pause
 let btnPauseCanvas = {
@@ -82,10 +84,10 @@ function game_over() {
     if (carro.vida <= 0) {
         jogar = false
         motor.pause()
-
+        
         //Troquei o fundo quando a funçaõ é chamada
         let canvas = document.querySelector("canvas");
-        canvas.style.backgroundImage = "url('./img/fundo_game_over.png')";
+        canvas.style.backgroundImage = "url('./img/fundo_game_over2.png')";
     }
 }
 
@@ -193,8 +195,9 @@ function desenha() {
         des.font = '26px Arial'
         des.fillText(pausado ? '▶️' : '⏸️', btnPauseCanvas.x + 40, btnPauseCanvas.y + 32)
     } else {
-        // t1.des_text('GAME OVER', 350, 350, 'yellow', '60px Arial')
-        t2.des_text('Pontuação Final: ' + carro.pontos, 380, 200, 'red', '30px Arial')
+        // adicionei um gato mostrandoa lingua aqui
+        gameOverAnim.des_carro()
+        t2.des_text('Pontuação Final: ' + carro.pontos, 500, 70, 'white', '30px Arial')
     }
 }
 
@@ -217,6 +220,9 @@ function atualiza() {
         ver_fase()
         game_over()
     }
+    //adicionei um gato mostrandoa lingua na tela game over aqui
+    gameOverAnim.anim_game_over('lingua_0')
+
 }
 
 function main() {
